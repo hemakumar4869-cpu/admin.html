@@ -1133,7 +1133,7 @@ function renderGallery(){
   document.getElementById('content-root').innerHTML = `
     <div class="panel">
       <div class="panel-head"><div><h3>Live Gallery</h3><p>Upload multiple event photos — updates the public gallery automatically.</p></div></div>
-      <div class="file-drop" onclick="document.getElementById('gallery-input').click()">Click to upload photos (multiple allowed, ~1.5MB each max)</div>
+      <div class="file-drop" onclick="document.getElementById('gallery-input').click()">Click to upload photos (multiple allowed, up to 50MB each )</div>
       <input type="file" id="gallery-input" accept="image/*" multiple class="hidden" onchange="handleGalleryUpload(event)">
       <div id="gallery-list" style="margin-top:20px"></div>
     </div>`;
@@ -1154,7 +1154,7 @@ function handleGalleryUpload(e){
   let remaining = files.length;
   if(!remaining) return;
   files.forEach(file=>{
-    if(file.size > 2*1024*1024){ showToast(file.name+' too large — skipped', true); remaining--; if(remaining===0) finishGalleryUpload(); return; }
+    if(file.size > 50*1024*1024){ showToast(file.name+' too large — skipped', true); remaining--; if(remaining===0) finishGalleryUpload(); return; }
     const reader = new FileReader();
     reader.onload = () => {
       DATA.gallery.push({id:uid(), url:reader.result, caption:file.name});
